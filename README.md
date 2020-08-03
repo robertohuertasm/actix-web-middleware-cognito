@@ -1,5 +1,7 @@
 # actix-web-middleware-cognito
 
+[![ActionsStatus](https://github.com/robertohuertasm/actix-web-middleware-cognito/workflows/Build/badge.svg)](https://github.com/robertohuertasm/actix-web-middleware-cognito/actions) [![Crates.io](https://img.shields.io/crates/v/actix-web-middleware-cognito.svg)](https://crates.io/crates/actix-web-middleware-cognito) [![API](https://docs.rs/actix-web-middleware-cognito/badge.svg)](https://docs.rs/actix-web-middleware-cognito)
+
 Middleware for [actix-web](https://github.com/actix/actix-web) that helps you validate Cognito tokens.
 
 ## Cognito validator
