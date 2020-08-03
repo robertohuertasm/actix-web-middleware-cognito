@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  crates:
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Rust
+        uses: hecrj/setup-rust-action@master
+        with:
+          rust-version: ${{ matrix.rust }}
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Publish to crates.io
+        run: |
+          cargo login ${{secrets.crates_key}}
+          cargo publish
