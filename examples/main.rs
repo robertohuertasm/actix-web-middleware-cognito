@@ -24,7 +24,7 @@ async fn main() -> std::io::Result<()> {
     // The validator will be built by using some environment variables.
     // Read the docs for more information.
     let cognito_validator =
-        Arc::new(CognitoValidator::create().expect("Cognito configuration not found"));
+        Arc::new(CognitoValidator::create().expect("Cognito configuration error"));
 
     HttpServer::new(move || {
         // cognito middleware

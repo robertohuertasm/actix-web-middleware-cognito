@@ -59,3 +59,21 @@ impl FromRequest for CognitoInfo {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::test;
+
+    #[actix_rt::test]
+    async fn extractor_works() {
+        let req = test::TestRequest::with_header("authorization", "Bearer token").to_http_request();
+        let info = CognitoInfo::enabled("token".to_string());
+        req.extensions_mut().insert(info);
+
+        let result = CognitoInfo::from_request(&req, &mut Payload::None).await;
+
+        assert!(result.is_ok());
+        assert_eq!(result.unwrap().token, Some("token".to_string()));
+    }
+}

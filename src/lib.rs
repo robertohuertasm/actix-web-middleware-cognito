@@ -7,7 +7,8 @@
 //! - **COGNITO_REGION**: The region of the Cognito pool.
 //! - **COGNITO_POOLID**: The Cognito pool id.
 //! - **COGNITO_CLIENTID**: The client id of your app.
-//! - **COGNITO_ENABLED** (optional): if not present no validation will be done.
+//! - **COGNITO_ENABLED** (optional): if not present or 0 no validation will be done.
+//! - **COGNITO_VERIFY_ACCESSTOKEN** (optional): if not present or 0 idToken will be validated. If present, the accessToken will be validated instead.
 //!
 //! ## Usage
 //!
@@ -25,7 +26,7 @@
 //! # async fn main() -> std::io::Result<()> {
 //! // builidng the validator in order to be shared between all threads.
 //! let cognito_validator =
-//!     Arc::new(CognitoValidator::create().expect("Cognito configuration not found"));
+//!     Arc::new(CognitoValidator::create().expect("Error configuring the Cognito validator"));
 //!
 //! HttpServer::new(move || {
 //!     // cognito middleware
