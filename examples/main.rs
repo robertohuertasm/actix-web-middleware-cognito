@@ -14,7 +14,7 @@ async fn index(auth: CognitoInfo) -> impl Responder {
 
 const PORT: &str = "3000";
 
-#[actix_rt::main]
+#[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv::from_filename("examples/.env").ok();
     env_logger::init();
