@@ -67,7 +67,9 @@ mod tests {
 
     #[actix_rt::test]
     async fn extractor_works() {
-        let req = test::TestRequest::with_header("authorization", "Bearer token").to_http_request();
+        let req = test::TestRequest::default()
+            .insert_header(("authorization", "Bearer token"))
+            .to_http_request();
         let info = CognitoInfo::enabled("token".to_string());
         req.extensions_mut().insert(info);
 

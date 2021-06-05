@@ -138,7 +138,9 @@ mod tests {
 
     #[actix_rt::test]
     async fn validate_returns_false_if_token_is_wrong() {
-        let req = test::TestRequest::with_header("authorization", "Bearer token").to_http_request();
+        let req = test::TestRequest::default()
+            .insert_header(("authorization", "Bearer token"))
+            .to_http_request();
 
         let auth = BearerAuth::from_request(&req, &mut actix_web::dev::Payload::None)
             .await
@@ -154,7 +156,9 @@ mod tests {
 
     #[actix_rt::test]
     async fn validate_returns_true_if_disabled() {
-        let req = test::TestRequest::with_header("authorization", "Bearer token").to_http_request();
+        let req = test::TestRequest::default()
+            .insert_header(("authorization", "Bearer token"))
+            .to_http_request();
 
         let auth = BearerAuth::from_request(&req, &mut actix_web::dev::Payload::None)
             .await
@@ -173,7 +177,9 @@ mod tests {
 
     #[actix_rt::test]
     async fn validate_returns_false_if_enabled_and_no_keyset_verifier() {
-        let req = test::TestRequest::with_header("authorization", "Bearer token").to_http_request();
+        let req = test::TestRequest::default()
+            .insert_header(("authorization", "Bearer token"))
+            .to_http_request();
 
         let auth = BearerAuth::from_request(&req, &mut actix_web::dev::Payload::None)
             .await
