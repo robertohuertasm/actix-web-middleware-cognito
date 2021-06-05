@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0-beta.6 - 2021-xx-xx
+
+* Compatibility with `actix-web` 4.0.0-beta.6.
+
 ## 0.4.0-beta.5 - 2021-06-05
 
 * Compatibility with `actix-web` 4.0.0-beta.5.
