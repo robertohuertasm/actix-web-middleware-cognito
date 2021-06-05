@@ -1,5 +1,6 @@
+use actix_service::{Service, Transform};
 use actix_web::{
-    dev::{Service, ServiceRequest, ServiceResponse, Transform},
+    dev::{ServiceRequest, ServiceResponse},
     Error, HttpMessage,
 };
 use actix_web_httpauth::{extractors::bearer::BearerAuth, extractors::AuthExtractor};
@@ -26,13 +27,12 @@ impl Cognito {
     }
 }
 
-impl<S, B> Transform<S> for Cognito
+impl<S, B> Transform<S, ServiceRequest> for Cognito
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error> + 'static,
+    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error> + 'static,
     S::Future: 'static,
     B: 'static,
 {
-    type Request = ServiceRequest;
     type Response = ServiceResponse<B>;
     type Error = Error;
     type InitError = ();
@@ -52,22 +52,21 @@ pub struct CognitoMiddleware<S> {
     pub validator: Arc<CognitoValidator>,
 }
 
-impl<S, B> Service for CognitoMiddleware<S>
+impl<S, B> Service<ServiceRequest> for CognitoMiddleware<S>
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error> + 'static,
+    S: Service<ServiceRequest, Response = ServiceResponse<B>, Error = Error> + 'static,
     S::Future: 'static,
     B: 'static,
 {
-    type Request = ServiceRequest;
     type Response = ServiceResponse<B>;
     type Error = S::Error;
     type Future = LocalBoxFuture<'static, Result<Self::Response, Self::Error>>;
 
-    fn poll_ready(&mut self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
+    fn poll_ready(&self, cx: &mut Context<'_>) -> Poll<Result<(), Self::Error>> {
         self.service.borrow_mut().poll_ready(cx)
     }
 
-    fn call(&mut self, req: ServiceRequest) -> Self::Future {
+    fn call(&self, req: ServiceRequest) -> Self::Future {
         if self.validator.disabled {
             log::info!("🔓 Cognito validation is disabled");
             req.extensions_mut().insert(CognitoInfo::disabled());
