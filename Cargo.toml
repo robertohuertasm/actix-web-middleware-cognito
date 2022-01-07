@@ -1,9 +1,9 @@
 [package]
 name = "actix-web-middleware-cognito"
 description = "Middleware for actix-web that helps you validate Cognito tokens"
-version = "0.4.0-beta.6"
+version = "0.4.0-beta.19"
 authors = ["Roberto Huertas <roberto.huertas@outlook.com>"]
-edition = "2018"
+edition = "2021"
 license = "MIT"
 repository = "https://github.com/robertohuertasm/actix-web-middleware-cognito"
 readme = "README.md"
@@ -15,11 +15,9 @@ exclude = [".github", ".vscode", "Makefile.toml"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-actix-web = { version = "4.0.0-beta.6", default-features = false } # https://github.com/actix/actix-extras/issues/176
-# actix-http = "=3.0.0-beta.6"
+actix-web = { version = "4.0.0-beta.19", default-features = false } 
+actix-web-httpauth = "0.6.0-beta.7"
 actix-service = "2.0.0"
-# actix-web-httpauth = "0.6.0-beta.1"
-actix-web-httpauth= { git="https://github.com/near/actix-extras", branch="actix-web-4-beta.6"}
 futures = "0.3"
 log = "0.4"
 # jwt validation
@@ -27,8 +25,8 @@ jsonwebtokens = "1.0.0"
 jsonwebtokens-cognito = "0.1.0-alpha.9"
 
 [dev-dependencies]
-env_logger = "0.8"
+env_logger = "0.9"
+actix-cors = "0.6.0-beta.8"
 # actix-cors = "0.6.0-beta.1"
-actix-cors = { git="https://github.com/near/actix-extras", branch="actix-web-4-beta.6"}
 actix-rt = "2.2.0"
 dotenv = "0.15.0"

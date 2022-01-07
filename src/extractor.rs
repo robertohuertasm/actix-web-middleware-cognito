@@ -1,4 +1,4 @@
-use actix_web::{dev::Payload, Error, FromRequest, HttpRequest};
+use actix_web::{dev::Payload, Error, FromRequest, HttpMessage, HttpRequest};
 use futures::future::{err, ok, Ready};
 use jsonwebtokens as jwt;
 
@@ -50,7 +50,7 @@ impl CognitoInfo {
 impl FromRequest for CognitoInfo {
     type Error = Error;
     type Future = Ready<Result<Self, Self::Error>>;
-    type Config = ();
+
     fn from_request(req: &HttpRequest, _: &mut Payload) -> Self::Future {
         if let Some(info) = req.extensions().get::<Self>() {
             ok(info.to_owned())
@@ -65,7 +65,7 @@ mod tests {
     use super::*;
     use actix_web::test;
 
-    #[actix_rt::test]
+    #[test]
     async fn extractor_works() {
         let req = test::TestRequest::default()
             .insert_header(("authorization", "Bearer token"))
