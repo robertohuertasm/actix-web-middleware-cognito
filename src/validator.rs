@@ -117,26 +117,26 @@ mod tests {
     }
 
     #[test]
-    fn validator_create_will_not_break_if_no_env_vars_found() {
+    async fn validator_create_will_not_break_if_no_env_vars_found() {
         let validator = CognitoValidator::create();
         assert!(validator.is_ok());
         assert!(validator.unwrap().disabled);
     }
 
     #[test]
-    fn validator_create_with_no_env_vars_is_disabled() {
+    async fn validator_create_with_no_env_vars_is_disabled() {
         let validator = CognitoValidator::create();
         assert!(validator.unwrap().disabled);
     }
 
     #[test]
-    fn validator_is_enabled_when_var_is_enabled() {
+    async fn validator_is_enabled_when_var_is_enabled() {
         let validator =
             CognitoValidator::create_with_extractor(MockEnabledExtractor::default()).unwrap();
         assert!(!validator.disabled);
     }
 
-    #[actix_rt::test]
+    #[test]
     async fn validate_returns_false_if_token_is_wrong() {
         let req = test::TestRequest::default()
             .insert_header(("authorization", "Bearer token"))
@@ -154,7 +154,7 @@ mod tests {
         assert!(!result);
     }
 
-    #[actix_rt::test]
+    #[test]
     async fn validate_returns_true_if_disabled() {
         let req = test::TestRequest::default()
             .insert_header(("authorization", "Bearer token"))
@@ -175,7 +175,7 @@ mod tests {
         assert!(result);
     }
 
-    #[actix_rt::test]
+    #[test]
     async fn validate_returns_false_if_enabled_and_no_keyset_verifier() {
         let req = test::TestRequest::default()
             .insert_header(("authorization", "Bearer token"))
